@@ -1,0 +1,434 @@
+Index: interface/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php b/interface/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php
+new file mode 100644
+--- /dev/null	(date 1637130182205)
++++ b/interface/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php	(date 1637130182205)
+@@ -0,0 +1,79 @@
++<?php
++
++/**
++ * dm2_fu_ap_01 form
++ *
++ * @package   OpenEMR
++ * @link      http://www.open-emr.org
++ * @author    Brady Miller <brady.g.miller@gmail.com>
++ * @author    Ralf Lukner <lukner@gmail.com>
++ * @copyright Copyright (c) 2019 Brady Miller <brady.g.miller@gmail.com>
++ * @copyright Copyright (c) 2021 Ralf Lukner <lukner@gmail.com>
++ * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3
++ */
++
++require_once($GLOBALS['fileroot'] . "/library/forms.inc");
++require_once("FormDM2_FU_AP_01.class.php");
++
++use OpenEMR\Common\Csrf\CsrfUtils;
++
++class C_FormDM2_FU_AP_01 extends Controller
++{
++
++    var $template_dir;
++
++    function __construct($template_mod = "general")
++    {
++        parent::__construct();
++        $this->template_mod = $template_mod;
++        $this->template_dir = dirname(__FILE__) . "/templates/";
++        $this->assign("FORM_ACTION", $GLOBALS['web_root']);
++        $this->assign("DONT_SAVE_LINK", $GLOBALS['form_exit_url']);
++        $this->assign("STYLE", $GLOBALS['style']);
++        $this->assign("CSRF_TOKEN_FORM", CsrfUtils::collectCsrfToken());
++    }
++
++    function default_action()
++    {
++        $form = new FormDM2_FU_AP_01();
++        $this->assign("data", $form);
++        return $this->fetch($this->template_dir . $this->template_mod . "_new.html");
++    }
++
++    function view_action($form_id)
++    {
++        if (is_numeric($form_id)) {
++            $form = new FormDM2_FU_AP_01($form_id);
++        } else {
++            $form = new FormDM2_FU_AP_01();
++        }
++
++        $dbconn = $GLOBALS['adodb']['db'];
++
++        $this->assign("data", $form);
++
++        return $this->fetch($this->template_dir . $this->template_mod . "_new.html");
++    }
++
++    function default_action_process()
++    {
++        if ($_POST['process'] != "true") {
++            return;
++        }
++
++        $this->form = new FormDM2_FU_AP_01($_POST['id']);
++        parent::populate_object($this->form);
++
++        $this->form->persist();
++        if ($GLOBALS['encounter'] == "") {
++            $GLOBALS['encounter'] = date("Ymd");
++        }
++
++        if (empty($_POST['id'])) {
++            addForm($GLOBALS['encounter'], "DM2_FU_AP_01", $this->form->id, "dm2_fu_ap_01", $GLOBALS['pid'], $_SESSION['userauthorized']);
++            $_POST['process'] = "";
++        }
++
++        return;
++    }
++}
+Index: interface/forms/dm2_fu_ap_01/new.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\n/**\n * dm2_fu_hpi_01 form\n *\n * @package   OpenEMR\n * @link      http://www.open-emr.org\n * @author    Brady Miller <brady.g.miller@gmail.com>\n * @author    Ralf Lukner <lukner@gmail.com>\n * @copyright Copyright (c) 2019 Brady Miller <brady.g.miller@gmail.com>\n * @copyright Copyright (c) 2021 Ralf Lukner <lukner@gmail.com>\n * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3\n */\n\nrequire_once(__DIR__ . \"/../../globals.php\");\nrequire_once(\"$srcdir/api.inc\");\n\nrequire(\"C_FormDM2_FU_HPI_01.class.php\");\n\n$c = new C_FormDM2_FU_HPI_01();\necho $c->default_action();\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/new.php b/interface/forms/dm2_fu_ap_01/new.php
+--- a/interface/forms/dm2_fu_ap_01/new.php	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/new.php	(date 1637130182113)
+@@ -1,7 +1,7 @@
+ <?php
+ 
+ /**
+- * dm2_fu_hpi_01 form
++ * dm2_fu_ap_01 form
+  *
+  * @package   OpenEMR
+  * @link      http://www.open-emr.org
+@@ -15,7 +15,7 @@
+ require_once(__DIR__ . "/../../globals.php");
+ require_once("$srcdir/api.inc");
+ 
+-require("C_FormDM2_FU_HPI_01.class.php");
++require("C_FormDM2_FU_AP_01.class.php");
+ 
+-$c = new C_FormDM2_FU_HPI_01();
++$c = new C_FormDM2_FU_AP_01();
+ echo $c->default_action();
+Index: interface/forms/dm2_fu_ap_01/templates/general_new.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><html>\n<head>\n<title>{xlt t='DM2 Follow-up'}</title>\n{headerTemplate}\n</head>\n<body>\n    <div class=\"container mt-3\">\n        <div class=\"row\">\n            <div class=\"col-12\">\n                <h2>{xlt t='DM2 Follow-up'}</h2>\n                <form name=\"dm2_fu_hpi_01\" method=\"post\"\n                      action=\"{$FORM_ACTION}/interface/forms/dm2_fu_hpi_01/save.php\"\n                      onsubmit=\"return top.restoreSession()\">\n                    <input type=\"hidden\" name=\"csrf_token_form\" value=\"{$CSRF_TOKEN_FORM|attr}\" />\n                    <fieldset>\n                        <legend>{xlt t='Date of Original DM2 Diagnosis'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\" >\n                                <textarea name=\"date_of_original_dm2_diagnosis\"\n                                          class=\"form-control\" cols=\"60\" rows=\"1\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_date_of_original_dm2_diagnosis()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='Date of Last DM2 Visit'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\" >\n                                <textarea name=\"date_last_dm2_visit\" class=\"form-control\" cols=\"60\" rows=\"1\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_date_last_dm2_visit()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='DM2 Management Actions at Last Visit'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\">\n                                <textarea name=\"dm2_mgmt_last_visit\" class=\"form-control\" cols=\"60\" rows=\"4\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_dm2_mgmt_last_visit()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='Interval History & Timing (Symptoms, Blood Sugars, ER visits, Hospitalizations)'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\">\n                                <textarea name=\"intv_hx_chngs_bs_er_hosp\" class=\"form-control\" cols=\"60\" rows=\"6\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_intv_hx_chngs_bs_er_hosp()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='Severity and Significance of Symptoms, History, Observations'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\">\n                                <textarea name=\"severity_significance\" class=\"form-control\" cols=\"60\" rows=\"2\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_severity_significance()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='Diet and Exercise'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\">\n                                <textarea name=\"pt_diet_exercise\" class=\"form-control\" cols=\"60\" rows=\"2\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_pt_diet_exercise()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='Diabetic Complications'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\">\n                                <textarea name=\"dm_complications\" class=\"form-control\" cols=\"60\" rows=\"2\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_dm_complications()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <fieldset>\n                        <legend>{xlt t='Preventatives: Vaccinations and Foot Care'}</legend>\n                        <div class=\"container\">\n                            <div class=\"form-group\">\n                                <textarea name=\"preventatives\" class=\"form-control\" cols=\"60\" rows=\"2\"\n                                          onkeyup=\"top.isDM2FUEdit = true;\">{$data->get_preventatives()|text}</textarea>\n                            </div>\n                        </div>\n                    </fieldset>\n                    <div class=\"form-group\">\n                        <div class=\"btn-group\" role=\"group\">\n                            <button type=\"submit\" class=\"btn btn-primary btn-save\" name=\"Submit\">{xlt t='Save'}</button>\n                            <button type=\"button\" class=\"btn btn-secondary btn-cancel\" id=\"btnClose\">{xlt t='Cancel'}</button>\n                        </div>\n                        <input type=\"hidden\" name=\"id\" value=\"{$data->get_id()|attr}\" />\n                        <input type=\"hidden\" name=\"activity\" value=\"{$data->get_activity()|attr}\" />\n                        <input type=\"hidden\" name=\"pid\" value=\"{$data->get_pid()|attr}\" />\n                        <input type=\"hidden\" name=\"process\" value=\"true\" />\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n    {literal}\n    <script>\n        const close = function() {\n            if (top.isDM2FUEdit === true) {\n                dlgopen('', '', 450, 125, '', '<div class=\"text-danger\">{/literal}{xla t='Warning'}{literal}</div>', {\n                    type: 'Alert',\n                    html: '<p>{/literal}{xla t='Do you want to close the tabs?'}{literal}</p>',\n                    buttons: [\n                        {text: '{/literal}{xla t='Cancel'}{literal}', close: true, style: 'default btn-sm'},\n                        {text: '{/literal}{xla t='Close'}{literal}', close: true, style: 'danger btn-sm', click: closeSoap},\n                    ],\n                    allowDrag: false,\n                    allowResize: false,\n                });\n            } else {\n                top.restoreSession();\n                location.href = 'javascript:parent.closeTab(window.name, false)';\n            }\n        }\n\n        const closeSoap = function() {\n            top.isDM2FUEdit = false;\n            top.restoreSession();\n            location.href = 'javascript:parent.closeTab(window.name, false)';\n        }\n        $('#btnClose').click(close);\n    </script>\n    {/literal}\n</body>\n</html>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/templates/general_new.html b/interface/forms/dm2_fu_ap_01/templates/general_new.html
+--- a/interface/forms/dm2_fu_ap_01/templates/general_new.html	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/templates/general_new.html	(date 1637130182113)
+@@ -1,65 +1,65 @@
+-<html>
++ <html>
+ <head>
+-<title>{xlt t='DM2 Follow-up'}</title>
++<title>{xlt t='DM2 Follow-up Assessment and Plan'}</title>
+ {headerTemplate}
+ </head>
+ <body>
+     <div class="container mt-3">
+         <div class="row">
+             <div class="col-12">
+-                <h2>{xlt t='DM2 Follow-up'}</h2>
+-                <form name="dm2_fu_hpi_01" method="post"
+-                      action="{$FORM_ACTION}/interface/forms/dm2_fu_hpi_01/save.php"
++                <h2>{xlt t='DM2 Follow-up Assessment and Plan'}</h2>
++                <form name="dm2_fu_ap_01" method="post"
++                      action="{$FORM_ACTION}/interface/forms/dm2_fu_ap_01/save.php"
+                       onsubmit="return top.restoreSession()">
+                     <input type="hidden" name="csrf_token_form" value="{$CSRF_TOKEN_FORM|attr}" />
+                     <fieldset>
+-                        <legend>{xlt t='Date of Original DM2 Diagnosis'}</legend>
++                        <legend>{xlt t='Overall DM2 Managment Status (at goal/not)(improved/not)'}</legend>
+                         <div class="container">
+                             <div class="form-group" >
+-                                <textarea name="date_of_original_dm2_diagnosis"
+-                                          class="form-control" cols="60" rows="1"
+-                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_date_of_original_dm2_diagnosis()|text}</textarea>
++                                <textarea name="dm2_mgmt_status"
++                                          class="form-control" cols="60" rows="4"
++                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_mgmt_status()|text}</textarea>
+                             </div>
+                         </div>
+                     </fieldset>
+                     <fieldset>
+-                        <legend>{xlt t='Date of Last DM2 Visit'}</legend>
++                        <legend>{xlt t='DM2 Medications and Changes'}</legend>
+                         <div class="container">
+                             <div class="form-group" >
+-                                <textarea name="date_last_dm2_visit" class="form-control" cols="60" rows="1"
+-                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_date_last_dm2_visit()|text}</textarea>
++                                <textarea name="dm2_medications" class="form-control" cols="60" rows="4"
++                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_medications()|text}</textarea>
+                             </div>
+                         </div>
+                     </fieldset>
+                     <fieldset>
+-                        <legend>{xlt t='DM2 Management Actions at Last Visit'}</legend>
++                        <legend>{xlt t='Referrals'}</legend>
+                         <div class="container">
+                             <div class="form-group">
+-                                <textarea name="dm2_mgmt_last_visit" class="form-control" cols="60" rows="4"
+-                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_mgmt_last_visit()|text}</textarea>
++                                <textarea name="dm2_referrals" class="form-control" cols="60" rows="4"
++                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_referrals()|text}</textarea>
+                             </div>
+                         </div>
+                     </fieldset>
+                     <fieldset>
+-                        <legend>{xlt t='Interval History & Timing (Symptoms, Blood Sugars, ER visits, Hospitalizations)'}</legend>
++                        <legend>{xlt t='Goals'}</legend>
+                         <div class="container">
+                             <div class="form-group">
+-                                <textarea name="intv_hx_chngs_bs_er_hosp" class="form-control" cols="60" rows="6"
+-                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_intv_hx_chngs_bs_er_hosp()|text}</textarea>
++                                <textarea name="dm2_goals" class="form-control" cols="60" rows="6"
++                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_goals()|text}</textarea>
+                             </div>
+                         </div>
+                     </fieldset>
+                     <fieldset>
+-                        <legend>{xlt t='Severity and Significance of Symptoms, History, Observations'}</legend>
++                        <legend>{xlt t='Labs and Procedures Ordered'}</legend>
+                         <div class="container">
+                             <div class="form-group">
+-                                <textarea name="severity_significance" class="form-control" cols="60" rows="2"
+-                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_severity_significance()|text}</textarea>
++                                <textarea name="dm2_labs_procedures_ordered" class="form-control" cols="60" rows="2"
++                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_labs_procedures_ordered()|text}</textarea>
+                             </div>
+                         </div>
+                     </fieldset>
+                     <fieldset>
+-                        <legend>{xlt t='Diet and Exercise'}</legend>
++                        <legend>{xlt t='Diet and Exercise Goals'}</legend>
+                         <div class="container">
+                             <div class="form-group">
+                                 <textarea name="pt_diet_exercise" class="form-control" cols="60" rows="2"
+@@ -68,7 +68,7 @@
+                         </div>
+                     </fieldset>
+                     <fieldset>
+-                        <legend>{xlt t='Diabetic Complications'}</legend>
++                        <legend>{xlt t='Additional Diabetic Complications Management'}</legend>
+                         <div class="container">
+                             <div class="form-group">
+                                 <textarea name="dm_complications" class="form-control" cols="60" rows="2"
+Index: interface/forms/dm2_fu_ap_01/report.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\n/**\n * dm2_fu_hpi_01 form\n *\n * @package   OpenEMR\n * @link      http://www.open-emr.org\n * @author    Brady Miller <brady.g.miller@gmail.com>\n * @author    Ralf Lukner <lukner@gmail.com>\n * @copyright Copyright (c) 2019 Brady Miller <brady.g.miller@gmail.com>\n * @copyright Copyright (c) 2021 Ralf Lukner <lukner@gmail.com>\n * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3\n */\n\nrequire_once(dirname(__FILE__) . '/../../globals.php');\nrequire_once($GLOBALS[\"srcdir\"] . \"/api.inc\");\n\nfunction dm2_fu_hpi_01_report($pid, $encounter, $cols, $id)\n{\n    $cols = 1; // force always 1 column\n    $count = 0;\n    $data = formFetch(\"form_dm2_fu_hpi_01\", $id);\n    if ($data) {\n        print \"<table><tr>\";\n        foreach ($data as $key => $value) {\n            if ($key == \"id\" || $key == \"pid\" || $key == \"user\" || $key == \"groupname\" || $key == \"authorized\" || $key == \"activity\" || $key == \"date\" || $value == \"\" || $value == \"0000-00-00 00:00:00\") {\n                continue;\n            }\n\n            if ($value == \"on\") {\n                $value = \"yes\";\n            }\n\n            $key = ucwords(str_replace(\"_\", \" \", $key));\n                                                                              //Updated by Sherwin 10/24/2016\n            print \"<td><span class=bold>\" . xlt($key) . \": </span><span class=text>\" . nl2br(text($value)) . \"</span></td>\";\n            $count++;\n            if ($count == $cols) {\n                $count = 0;\n                print \"</tr><tr>\\n\";\n            }\n        }\n    }\n\n    print \"</tr></table>\";\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/report.php b/interface/forms/dm2_fu_ap_01/report.php
+--- a/interface/forms/dm2_fu_ap_01/report.php	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/report.php	(date 1637130182113)
+@@ -1,7 +1,7 @@
+ <?php
+ 
+ /**
+- * dm2_fu_hpi_01 form
++ * dm2_fu_ap_01 form
+  *
+  * @package   OpenEMR
+  * @link      http://www.open-emr.org
+@@ -15,11 +15,11 @@
+ require_once(dirname(__FILE__) . '/../../globals.php');
+ require_once($GLOBALS["srcdir"] . "/api.inc");
+ 
+-function dm2_fu_hpi_01_report($pid, $encounter, $cols, $id)
++function dm2_fu_ap_01_report($pid, $encounter, $cols, $id)
+ {
+     $cols = 1; // force always 1 column
+     $count = 0;
+-    $data = formFetch("form_dm2_fu_hpi_01", $id);
++    $data = formFetch("form_dm2_fu_ap_01", $id);
+     if ($data) {
+         print "<table><tr>";
+         foreach ($data as $key => $value) {
+Index: interface/forms/dm2_fu_ap_01/table.sql
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>CREATE TABLE IF NOT EXISTS `form_dm2_fu_hpi_01` (\n`id` bigint(20) NOT NULL auto_increment,\n`date` datetime default NULL,\n`pid` bigint(20) default 0,\n`user` varchar(255) default NULL,\n`groupname` varchar(255) default NULL,\n`authorized` tinyint(4) default 0,\n`activity` tinyint(4) default 0,\n`date_of_original_dm2_diagnosis` text,\n`date_last_dm2_visit` text,\n`dm2_mgmt_last_visit` text,\n`intv_hx_chngs_bs_er_hosp` text,\n`severity_significance` text,\n`pt_diet_exercise` text,\n`dm_complications` text,\n`preventatives` text,\nPRIMARY KEY (id)\n) ENGINE=InnoDB;\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/table.sql b/interface/forms/dm2_fu_ap_01/table.sql
+--- a/interface/forms/dm2_fu_ap_01/table.sql	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/table.sql	(date 1637130182113)
+@@ -1,4 +1,4 @@
+-CREATE TABLE IF NOT EXISTS `form_dm2_fu_hpi_01` (
++CREATE TABLE IF NOT EXISTS `form_dm2_fu_ap_01` (
+ `id` bigint(20) NOT NULL auto_increment,
+ `date` datetime default NULL,
+ `pid` bigint(20) default 0,
+@@ -6,11 +6,11 @@
+ `groupname` varchar(255) default NULL,
+ `authorized` tinyint(4) default 0,
+ `activity` tinyint(4) default 0,
+-`date_of_original_dm2_diagnosis` text,
+-`date_last_dm2_visit` text,
+-`dm2_mgmt_last_visit` text,
+-`intv_hx_chngs_bs_er_hosp` text,
+-`severity_significance` text,
++`dm2_mgmt_status` text,
++`dm2_medications` text,
++`dm2_referrals` text,
++`dm2_goals` text,
++`dm2_labs_procedures_ordered` text,
+ `pt_diet_exercise` text,
+ `dm_complications` text,
+ `preventatives` text,
+Index: interface/forms/dm2_fu_ap_01/view.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\n/**\n * dm2_fu_hpi_01 form\n *\n * @package   OpenEMR\n * @link      http://www.open-emr.org\n * @author    Brady Miller <brady.g.miller@gmail.com>\n * @author    Ralf Lukner <lukner@gmail.com>\n * @copyright Copyright (c) 2019 Brady Miller <brady.g.miller@gmail.com>\n * @copyright Copyright (c) 2021 Ralf Lukner <lukner@gmail.com>\n * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3\n */\n\nrequire_once(__DIR__ . \"/../../globals.php\");\nrequire_once(\"$srcdir/api.inc\");\n\nrequire(\"C_FormDM2_FU_HPI_01.class.php\");\n\n$c = new C_FormDM2_FU_HPI_01();\necho $c->view_action($_GET['id']);\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/view.php b/interface/forms/dm2_fu_ap_01/view.php
+--- a/interface/forms/dm2_fu_ap_01/view.php	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/view.php	(date 1637130182113)
+@@ -1,7 +1,7 @@
+ <?php
+ 
+ /**
+- * dm2_fu_hpi_01 form
++ * dm2_fu_ap_01 form
+  *
+  * @package   OpenEMR
+  * @link      http://www.open-emr.org
+@@ -15,7 +15,7 @@
+ require_once(__DIR__ . "/../../globals.php");
+ require_once("$srcdir/api.inc");
+ 
+-require("C_FormDM2_FU_HPI_01.class.php");
++require("C_FormDM2_FU_AP_01.class.php");
+ 
+-$c = new C_FormDM2_FU_HPI_01();
++$c = new C_FormDM2_FU_AP_01();
+ echo $c->view_action($_GET['id']);
+Index: interface/forms/dm2_fu_ap_01/save.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?php\n\n/**\n * dm2_fu_hpi_01 form\n *\n * @package   OpenEMR\n * @link      http://www.open-emr.org\n * @author    Brady Miller <brady.g.miller@gmail.com>\n * @author    Ralf Lukner <lukner@gmail.com>\n * @copyright Copyright (c) 2019 Brady Miller <brady.g.miller@gmail.com>\n * @copyright Copyright (c) 2021 Ralf Lukner <lukner@gmail.com>\n * @license   https://github.com/openemr/openemr/blob/master/LICENSE GNU General Public License 3\n */\n\nrequire_once(__DIR__ . \"/../../globals.php\");\nrequire_once(\"$srcdir/api.inc\");\n\nuse OpenEMR\\Common\\Csrf\\CsrfUtils;\n\nif (!CsrfUtils::verifyCsrfToken($_POST[\"csrf_token_form\"])) {\n    CsrfUtils::csrfNotVerified();\n}\n\nrequire(\"C_FormDM2_FU_HPI_01.class.php\");\n$c = new C_FormDM2_FU_HPI_01();\necho $c->default_action_process($_POST);\n@formJump();\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/save.php b/interface/forms/dm2_fu_ap_01/save.php
+--- a/interface/forms/dm2_fu_ap_01/save.php	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/save.php	(date 1637130182113)
+@@ -1,7 +1,7 @@
+ <?php
+ 
+ /**
+- * dm2_fu_hpi_01 form
++ * dm2_fu_ap_01 form
+  *
+  * @package   OpenEMR
+  * @link      http://www.open-emr.org
+@@ -21,7 +21,7 @@
+     CsrfUtils::csrfNotVerified();
+ }
+ 
+-require("C_FormDM2_FU_HPI_01.class.php");
+-$c = new C_FormDM2_FU_HPI_01();
++require("C_FormDM2_FU_AP_01.class.php");
++$c = new C_FormDM2_FU_AP_01();
+ echo $c->default_action_process($_POST);
+ @formJump();
+Index: interface/forms/dm2_fu_ap_01/info.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>DM2_FU_HPI_01\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/interface/forms/dm2_fu_ap_01/info.txt b/interface/forms/dm2_fu_ap_01/info.txt
+--- a/interface/forms/dm2_fu_ap_01/info.txt	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/interface/forms/dm2_fu_ap_01/info.txt	(date 1637130182113)
+@@ -1,1 +1,1 @@
+-DM2_FU_HPI_01
++DM2_FU_AP_01
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"7cc501f4-ff32-4aa2-bbe4-e7223037a0be\" name=\"Changes\" comment=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_HPI_01.class.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_HPI_01.class.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_AP_01.class.php\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/info.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/info.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/new.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/new.php\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/report.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/report.php\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/save.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/save.php\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/table.sql\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/table.sql\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/view.php\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/view.php\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"ComposerSettings\" doNotAsk=\"true\" synchronizationState=\"SYNCHRONIZE\">\n    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>\n    <execution />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"GitSEFilterConfiguration\">\n    <file-type-list>\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\n      <filtered-out-file-type name=\"TAG\" />\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\n    </file-type-list>\n  </component>\n  <component name=\"HighlightingSettingsPerFile\">\n    <setting file=\"file://$PROJECT_DIR$/library/ajax/execute_background_services.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/interface/patient_file/encounter/load_form.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/library/classes/Controller.class.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/interface/globals.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/docker/development-easy/docker-compose.yml\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/src/Common/ORDataObject/ORDataObject.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/library/ajax/dated_reminders_counter.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/interface/forms/soap/FormSOAP.class.php\" root0=\"FORCE_HIGHLIGHTING\" />\n    <setting file=\"file://$PROJECT_DIR$/interface/main/dated_reminders/dated_reminders.php\" root0=\"FORCE_HIGHLIGHTING\" root1=\"FORCE_HIGHLIGHTING\" />\n  </component>\n  <component name=\"PhpDebugGeneral\" listening_started=\"true\" xdebug_force_break_when_no_path_mapping=\"false\" xdebug_force_break_when_outside_project=\"false\" />\n  <component name=\"PhpServers\">\n    <servers>\n      <server host=\"localhost\" id=\"b656b2a2-829b-44fa-8441-5cfe567b5905\" name=\"localhost\" port=\"8300\" use_path_mappings=\"true\">\n        <path_mappings>\n          <mapping local-root=\"$PROJECT_DIR$\" remote-root=\"/var/www/localhost/htdocs/openemr\" />\n          <mapping local-root=\"$PROJECT_DIR$/library/ajax\" remote-root=\"/var/www/localhost/htdocs/openemr/library/ajax\" />\n        </path_mappings>\n      </server>\n    </servers>\n  </component>\n  <component name=\"PhpWorkspaceProjectConfiguration\" interpreter_name=\"openemr/openemr:flex\">\n    <include_path>\n      <path value=\"$PROJECT_DIR$/vendor/ramsey/collection\" />\n      <path value=\"$PROJECT_DIR$/vendor/pear/archive_tar\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-webdriver/webdriver\" />\n      <path value=\"$PROJECT_DIR$/vendor/mpdf/mpdf\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/string\" />\n      <path value=\"$PROJECT_DIR$/vendor/markbaker/complex\" />\n      <path value=\"$PROJECT_DIR$/vendor/markbaker/matrix\" />\n      <path value=\"$PROJECT_DIR$/vendor/yubico/u2flib-server\" />\n      <path value=\"$PROJECT_DIR$/vendor/twig/twig\" />\n      <path value=\"$PROJECT_DIR$/vendor/phenx/php-svg-lib\" />\n      <path value=\"$PROJECT_DIR$/vendor/phenx/php-font-lib\" />\n      <path value=\"$PROJECT_DIR$/vendor/nyholm/psr7-server\" />\n      <path value=\"$PROJECT_DIR$/vendor/nyholm/psr7\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet\" />\n      <path value=\"$PROJECT_DIR$/vendor/nikic/php-parser\" />\n      <path value=\"$PROJECT_DIR$/vendor/aranyasen/hl7\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/cache\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/simple-cache\" />\n      <path value=\"$PROJECT_DIR$/vendor/brick/varexporter\" />\n      <path value=\"$PROJECT_DIR$/vendor/brick/math\" />\n      <path value=\"$PROJECT_DIR$/vendor/graham-campbell/result-type\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/http-factory\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/container\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/http-message\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/http-client\" />\n      <path value=\"$PROJECT_DIR$/vendor/psr/log\" />\n      <path value=\"$PROJECT_DIR$/vendor/container-interop/container-interop\" />\n      <path value=\"$PROJECT_DIR$/vendor/sabberworm/php-css-parser\" />\n      <path value=\"$PROJECT_DIR$/vendor/vlucas/phpdotenv\" />\n      <path value=\"$PROJECT_DIR$/vendor/mobiledetect/mobiledetectlib\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpseclib/phpseclib\" />\n      <path value=\"$PROJECT_DIR$/vendor/theseer/tokenizer\" />\n      <path value=\"$PROJECT_DIR$/vendor/monolog/monolog\" />\n      <path value=\"$PROJECT_DIR$/vendor/league/oauth2-server\" />\n      <path value=\"$PROJECT_DIR$/vendor/league/event\" />\n      <path value=\"$PROJECT_DIR$/vendor/moneyphp/money\" />\n      <path value=\"$PROJECT_DIR$/vendor/academe/omnipay-authorizenetapi\" />\n      <path value=\"$PROJECT_DIR$/vendor/academe/authorizenet-objects\" />\n      <path value=\"$PROJECT_DIR$/vendor/pear/pear-core-minimal\" />\n      <path value=\"$PROJECT_DIR$/vendor/pear/console_getopt\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-text-template\" />\n      <path value=\"$PROJECT_DIR$/vendor/pear/pear_exception\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/phpunit\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-timer\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-file-iterator\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-code-coverage\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpunit/php-invoker\" />\n      <path value=\"$PROJECT_DIR$/vendor/omnipay/common\" />\n      <path value=\"$PROJECT_DIR$/vendor/omnipay/stripe\" />\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/instantiator\" />\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/annotations\" />\n      <path value=\"$PROJECT_DIR$/vendor/doctrine/lexer\" />\n      <path value=\"$PROJECT_DIR$/vendor/ezyang/htmlpurifier\" />\n      <path value=\"$PROJECT_DIR$/vendor/webimpress/safe-writer\" />\n      <path value=\"$PROJECT_DIR$/vendor/maennchen/zipstream-php\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/cli-parser\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/complexity\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/resource-operations\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/diff\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/code-unit\" />\n      <path value=\"$PROJECT_DIR$/vendor/bacon/bacon-qr-code\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/environment\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/type\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/exporter\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/lines-of-code\" />\n      <path value=\"$PROJECT_DIR$/vendor/kamermans/guzzle-oauth2-subscriber\" />\n      <path value=\"$PROJECT_DIR$/vendor/firebase/php-jwt\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/comparator\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/object-enumerator\" />\n      <path value=\"$PROJECT_DIR$/vendor/dompdf/dompdf\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/recursion-context\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/global-state\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/version\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup\" />\n      <path value=\"$PROJECT_DIR$/vendor/sebastian/object-reflector\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-math\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-code\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-xml\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-http\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpoption/phpoption\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-json\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-mvc\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-json-server\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-uri\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-servicemanager\" />\n      <path value=\"$PROJECT_DIR$/vendor/setasign/fpdi\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-stdlib\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-xmlrpc\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-validator\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-view\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpmailer/phpmailer\" />\n      <path value=\"$PROJECT_DIR$/vendor/google/auth\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-inputfilter\" />\n      <path value=\"$PROJECT_DIR$/vendor/google/apiclient\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-mvc-console\" />\n      <path value=\"$PROJECT_DIR$/vendor/google/apiclient-services\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-db\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-modulemanager\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-config\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-server\" />\n      <path value=\"$PROJECT_DIR$/vendor/webmozart/assert\" />\n      <path value=\"$PROJECT_DIR$/vendor/ralouphie/getallheaders\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-loader\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-hydrator\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-mvc-i18n\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-router\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-filter\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-i18n\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-form\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-escaper\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-console\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-text\" />\n      <path value=\"$PROJECT_DIR$/vendor/guzzlehttp/promises\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-soap\" />\n      <path value=\"$PROJECT_DIR$/vendor/laminas/laminas-eventmanager\" />\n      <path value=\"$PROJECT_DIR$/vendor/guzzlehttp/guzzle\" />\n      <path value=\"$PROJECT_DIR$/vendor/guzzlehttp/psr7\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/dom-crawler\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/dependency-injection\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/property-access\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/service-contracts\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/mime\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/browser-kit\" />\n      <path value=\"$PROJECT_DIR$/vendor/ramsey/uuid\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/event-dispatcher\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php73\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-grapheme\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/panther\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-foundation\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/inflector\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-client-contracts\" />\n      <path value=\"$PROJECT_DIR$/vendor/paragonie/multi-factor\" />\n      <path value=\"$PROJECT_DIR$/vendor/defuse/php-encryption\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/filesystem\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/process\" />\n      <path value=\"$PROJECT_DIR$/vendor/composer\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php72\" />\n      <path value=\"$PROJECT_DIR$/vendor/paragonie/random_compat\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/finder\" />\n      <path value=\"$PROJECT_DIR$/vendor/paragonie/constant_time_encoding\" />\n      <path value=\"$PROJECT_DIR$/vendor/phar-io/manifest\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/config\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-ctype\" />\n      <path value=\"$PROJECT_DIR$/vendor/phar-io/version\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-mbstring\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/http-client\" />\n      <path value=\"$PROJECT_DIR$/vendor/smarty/smarty\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-php80\" />\n      <path value=\"$PROJECT_DIR$/vendor/zircote/swagger-php\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/deprecation-contracts\" />\n      <path value=\"$PROJECT_DIR$/vendor/steverhoades/oauth2-openid-connect-server\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer\" />\n      <path value=\"$PROJECT_DIR$/vendor/symfony/yaml\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/reflection-common\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpdocumentor/type-resolver\" />\n      <path value=\"$PROJECT_DIR$/vendor/waryway/php-traits-library\" />\n      <path value=\"$PROJECT_DIR$/vendor/knplabs/knp-snappy\" />\n      <path value=\"$PROJECT_DIR$/vendor/stripe/stripe-php\" />\n      <path value=\"$PROJECT_DIR$/vendor/myclabs/deep-copy\" />\n      <path value=\"$PROJECT_DIR$/vendor/myclabs/php-enum\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-http/message\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-http/promise\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-http/discovery\" />\n      <path value=\"$PROJECT_DIR$/vendor/adodb/adodb-php\" />\n      <path value=\"$PROJECT_DIR$/vendor/phpspec/prophecy\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-http/guzzle7-adapter\" />\n      <path value=\"$PROJECT_DIR$/vendor/clue/stream-filter\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-http/message-factory\" />\n      <path value=\"$PROJECT_DIR$/vendor/php-http/httplug\" />\n      <path value=\"$PROJECT_DIR$/vendor/rospdf/pdf-php\" />\n      <path value=\"$PROJECT_DIR$/vendor/particle/validator\" />\n      <path value=\"$PROJECT_DIR$/vendor/lcobucci/jwt\" />\n    </include_path>\n  </component>\n  <component name=\"PhpXdebugProxy\" ide_key=\"PHPSTORM\" host=\"localhost\" port=\"9000\" />\n  <component name=\"ProjectId\" id=\"20KKY0qv2dDkfSttVSIsG4S45VC\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"ASKED_ADD_EXTERNAL_FILES\" value=\"true\" />\n    <property name=\"ASKED_MARK_IGNORED_FILES_AS_EXCLUDED\" value=\"true\" />\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\n    <property name=\"DatabaseDriversLRU\" value=\"mariadb\" />\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n    <property name=\"credentialsType com.jetbrains.php.remote.interpreter.ui.PhpCreateRemoteSdkForm\" value=\"Docker\" />\n    <property name=\"credentialsType com.jetbrains.php.remote.interpreter.ui.PhpInplaceEditRemoteSdkForm\" value=\"Docker\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/contrib/forms\" />\n    <property name=\"node.js.detected.package.eslint\" value=\"true\" />\n    <property name=\"node.js.detected.package.stylelint\" value=\"true\" />\n    <property name=\"node.js.detected.package.tslint\" value=\"true\" />\n    <property name=\"node.js.selected.package.eslint\" value=\"(autodetect)\" />\n    <property name=\"node.js.selected.package.stylelint\" value=\"$PROJECT_DIR$/node_modules/stylelint\" />\n    <property name=\"node.js.selected.package.tslint\" value=\"(autodetect)\" />\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\n    <property name=\"run.code.analysis.last.selected.profile\" value=\"pProject Default\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"vcs.Git\" />\n    <property name=\"two.files.diff.last.used.file\" value=\"$PROJECT_DIR$/interface/forms/soap/C_FormSOAP.class.php\" />\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\n  </component>\n  <component name=\"ReaderModeSettings\">\n    <option name=\"enabled\" value=\"false\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/contrib/forms\" />\n      <recent name=\"$PROJECT_DIR$/interface/forms\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Docker.development-easy: Compose Deployment\">\n    <configuration name=\"phpunit.xml\" type=\"PHPUnitRunConfigurationType\" factoryName=\"PHPUnit\">\n      <TestRunner scope=\"XML\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"Docker Image\" type=\"docker-deploy\" factoryName=\"docker-image\" server-name=\"Docker\">\n      <deployment type=\"docker-image\">\n        <settings>\n          <option name=\"imageTag\" value=\"openemr/openemr\" />\n          <option name=\"containerName\" value=\"development-easy_openemr_1\" />\n          <option name=\"portBindings\">\n            <list>\n              <DockerPortBindingImpl>\n                <option name=\"containerPort\" value=\"9000\" />\n                <option name=\"hostIp\" value=\"127.0.0.1\" />\n                <option name=\"hostPort\" value=\"9000\" />\n              </DockerPortBindingImpl>\n            </list>\n          </option>\n        </settings>\n      </deployment>\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"development-easy: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\" server-name=\"Docker\">\n      <deployment type=\"docker-compose.yml\">\n        <settings>\n          <option name=\"envFilePath\" value=\"\" />\n          <option name=\"sourceFilePath\" value=\"docker/development-easy/docker-compose.yml\" />\n          <option name=\"upAttachDependencies\" value=\"true\" />\n          <option name=\"upDetach\" value=\"false\" />\n        </settings>\n      </deployment>\n      <method v=\"2\" />\n    </configuration>\n    <list>\n      <item itemvalue=\"Docker.Docker Image\" />\n      <item itemvalue=\"Docker.development-easy: Compose Deployment\" />\n      <item itemvalue=\"PHPUnit.phpunit.xml\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Docker.development-easy: Compose Deployment\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"7cc501f4-ff32-4aa2-bbe4-e7223037a0be\" name=\"Changes\" comment=\"\" />\n      <created>1635787887454</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1635787887454</updated>\n      <workItem from=\"1635787891089\" duration=\"11438000\" />\n      <workItem from=\"1635902074986\" duration=\"10140000\" />\n      <workItem from=\"1636226047952\" duration=\"1562000\" />\n      <workItem from=\"1636227770168\" duration=\"307000\" />\n      <workItem from=\"1636228113461\" duration=\"661000\" />\n      <workItem from=\"1636229202778\" duration=\"1761000\" />\n      <workItem from=\"1636231073348\" duration=\"51000\" />\n      <workItem from=\"1636231158867\" duration=\"418000\" />\n      <workItem from=\"1636231614245\" duration=\"41142000\" />\n      <workItem from=\"1636767860533\" duration=\"24527000\" />\n      <workItem from=\"1636940268401\" duration=\"10838000\" />\n      <workItem from=\"1637116436802\" duration=\"39000\" />\n      <workItem from=\"1637116481935\" duration=\"779000\" />\n      <workItem from=\"1637118925084\" duration=\"2805000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"added contrib/forms/dm2fu and interface/forms/dm2fu based on soap_form\">\n      <created>1636220068147</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636220068147</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"replaced non-working versions of dm2fu in contrib/forms and interface/forms with a working version dm2_fu_01 based on soap_form\">\n      <created>1636290424456</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636290424457</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"replaced non-working versions of dm2fu in contrib/forms and interface/forms with a working version dm2_fu_01 based on soap_form\">\n      <created>1636915304809</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636915304809</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"Added dm2_fu_labs_01 form to track key labs for DM2 follow-up visits.\">\n      <created>1636927611524</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636927611524</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"Corrected dm2_fu_labs_01 bugs in template related to get_egfr and similar.\">\n      <created>1636928218295</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636928218295</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"dm2_fu_labs_01 - adjusted row height to 1 of the input fields.\">\n      <created>1636929130497</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636929130497</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"renamed dm2_fu_01 to dm2_fu_hpi_01 and related renames to reflect the HPI only role of this form\">\n      <created>1636931433951</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636931433951</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"renamed dm2_fu_01 to dm2_fu_hpi_01 and related renames to reflect the HPI only role of this form\">\n      <created>1636931458841</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636931458841</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"dm2_fu_labs_01 - added a field for the previous labs and comments.\">\n      <created>1636933882104</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636933882104</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"dm2_fu_hpi_01 - changed the subjective field to date of last dm2 visit.\">\n      <created>1636937702717</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636937702717</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"Synchronized with master\">\n      <created>1636938365203</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636938365203</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"Replaced 'objective' filed in dm2_fu_hpi_01 form with dm2_mgmt_last_visit representing the diabetes management actions (changing medications, etc.)\">\n      <created>1636940681439</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636940681439</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"Replaced 'assessment' field in dm2_fu_hpi_01 form with intv_hx_chngs_bs_er_hosp representing the interval history in terms of symptoms, blood sugars, ER visits, Hospitalization\">\n      <created>1636941372339</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636941372339</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"Replaced 'assessment' field in dm2_fu_hpi_01 form with intv_hx_chngs_bs_er_hosp representing the interval history in terms of symptoms, blood sugars, ER visits, Hospitalization\">\n      <created>1636942034096</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636942034096</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"Replaced 'plan' field in dm2_fu_hpi_01 form with severity_significance representing the severity and significance of symptoms etc.\">\n      <created>1636943552440</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1636943552440</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"dm2_fu_hpi_01 form - added diet and exercise field.\">\n      <created>1637027734800</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637027734800</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"dm2_fu_hpi_01 form - added complications and preventatives fields.\">\n      <created>1637113529458</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637113529458</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"dm2_fu forms from the active form directory to the contrib directory where they would be in the release if accepted.\">\n      <created>1637113964536</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637113964536</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"Diabetes Mellitus Type 2 Follow-up form contributions 2021-11-16 by Ralf Lukner\">\n      <created>1637115237802</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637115237802</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"Prepare to add fields to dm2_fu_hpi_01 form by moving it into the interface/forms directory\">\n      <created>1637117255359</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637117255359</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\">\n      <created>1637120889680</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637120889680</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\">\n      <created>1637120983374</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637120983374</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\">\n      <created>1637120999369</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637120999369</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\">\n      <created>1637121044607</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637121044607</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\">\n      <created>1637121130262</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1637121130262</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"26\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\n    <MESSAGE value=\"added contrib/forms/dm2fu and interface/forms/dm2fu based on soap_form\" />\n    <MESSAGE value=\"replaced non-working versions of dm2fu in contrib/forms and interface/forms with a working version dm2_fu_01 based on soap_form\" />\n    <MESSAGE value=\"Incorporate changes from master.  Added dm2_fu_labs_01 form to track key labs for DM2 follow-up visits.\" />\n    <MESSAGE value=\"Added dm2_fu_labs_01 form to track key labs for DM2 follow-up visits.\" />\n    <MESSAGE value=\"Corrected dm2_fu_labs_01 bugs in template related to get_egfr and similar.\" />\n    <MESSAGE value=\"dm2_fu_labs_01 - adjusted row height to 1 of the input fields.\" />\n    <MESSAGE value=\"renamed dm2_fu_01 to dm2_fu_hpi_01 and related renames to reflect the HPI only role of this form\" />\n    <MESSAGE value=\"dm2_fu_labs_01 - added a field for the previous labs and comments.\" />\n    <MESSAGE value=\"dm2_fu_hpi_01 - changed the subjective field to date of last dm2 visit.\" />\n    <MESSAGE value=\"Rebased with master.\" />\n    <MESSAGE value=\"Synchronized with master\" />\n    <MESSAGE value=\"Replaced 'objective' filed in dm2_fu_hpi_01 form with dm2_mgmt_last_visit representing the diabetes management actions (changing medications, etc.)\" />\n    <MESSAGE value=\"Replaced 'assessment' field in dm2_fu_hpi_01 form with intv_hx_chngs_bs_er_hosp representing the interval history in terms of symptoms, blood sugars, ER visits, Hospitalization\" />\n    <MESSAGE value=\"Replaced 'plan' field in dm2_fu_hpi_01 form with severity_significance representing the severity and significance of symptoms etc.\" />\n    <MESSAGE value=\"dm2_fu_hpi_01 form - added diet and exercise field.\" />\n    <MESSAGE value=\"dm2_fu_hpi_01 form - added complications and preventatives fields.\" />\n    <MESSAGE value=\"dm2_fu forms from the active form directory to the contrib directory where they would be in the release if accepted.\" />\n    <MESSAGE value=\"Diabetes Mellitus Type 2 Follow-up form contributions 2021-11-16 by Ralf Lukner\" />\n    <MESSAGE value=\"Prepare to add fields to dm2_fu_hpi_01 form by moving it into the interface/forms directory\" />\n    <MESSAGE value=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/forms/dm2fu/FormDM2FU.class.php</url>\n          <line>66</line>\n          <option name=\"timeStamp\" value=\"5\" />\n        </line-breakpoint>\n        <line-breakpoint type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/forms/dm2fu/C_FormDM2FU.class.php</url>\n          <line>29</line>\n          <option name=\"timeStamp\" value=\"7\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/forms/dm2fu2/view.php</url>\n          <line>20</line>\n          <option name=\"timeStamp\" value=\"10\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"php\">\n          <url>file://$PROJECT_DIR$/library/ajax/amc_misc_data.php</url>\n          <line>28</line>\n          <option name=\"timeStamp\" value=\"12\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/forms/dm2fu2/save.php</url>\n          <line>24</line>\n          <option name=\"timeStamp\" value=\"21\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/forms/dm2fu2/save.php</url>\n          <line>25</line>\n          <option name=\"timeStamp\" value=\"22\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/forms/dm2fu2/view.php</url>\n          <line>19</line>\n          <option name=\"timeStamp\" value=\"23\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"php\">\n          <url>file://$PROJECT_DIR$/interface/patient_file/encounter/encounter_top.php</url>\n          <line>47</line>\n          <option name=\"timeStamp\" value=\"26\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"javascript\">\n          <url>file://$PROJECT_DIR$/interface/main/tabs/js/frame_proxies.js</url>\n          <line>91</line>\n          <option name=\"timeStamp\" value=\"19\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" type=\"javascript\">\n          <url>file://$PROJECT_DIR$/library/js/CustomTemplateLoader.js</url>\n          <line>34</line>\n          <option name=\"timeStamp\" value=\"28\" />\n        </line-breakpoint>\n      </breakpoints>\n      <breakpoints-dialog>\n        <breakpoints-dialog>\n          <selected-grouping-rules>\n            <grouping-rule id=\"by-file\" />\n          </selected-grouping-rules>\n        </breakpoints-dialog>\n      </breakpoints-dialog>\n      <default-breakpoints>\n        <breakpoint enabled=\"true\" type=\"javascript-exception\" />\n      </default-breakpoints>\n    </breakpoint-manager>\n    <watches-manager>\n      <configuration name=\"load_form.php\">\n        <watch expression=\"$GLOBALS['web_root']\" language=\"PHP\" />\n        <watch expression=\"$this\" language=\"PHP\" />\n        <watch expression=\"$GLOBALS\" language=\"PHP\" />\n        <watch expression=\"$form\" language=\"PHP\" />\n        <watch expression=\"$_GET[&quot;formname&quot;]\" language=\"PHP\" />\n        <watch expression=\"$incdir\" language=\"PHP\" />\n      </configuration>\n      <configuration name=\"dated_reminders_counter.php\">\n        <watch expression=\"$portal_count\" language=\"PHP\" />\n      </configuration>\n    </watches-manager>\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 7b933cf0a52c81547df3b887fa13da7ed507984e)
++++ b/.idea/workspace.xml	(date 1637130644650)
+@@ -4,18 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="7cc501f4-ff32-4aa2-bbe4-e7223037a0be" name="Changes" comment="Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory.">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_HPI_01.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_HPI_01.class.php" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_AP_01.class.php" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/info.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/new.php" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/new.php" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/report.php" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/report.php" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/save.php" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/save.php" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/table.sql" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/view.php" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/view.php" afterDir="false" />
+-    </list>
++    <list default="true" id="7cc501f4-ff32-4aa2-bbe4-e7223037a0be" name="Changes" comment="Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory." />
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -37,15 +26,15 @@
+     </file-type-list>
+   </component>
+   <component name="HighlightingSettingsPerFile">
+-    <setting file="file://$PROJECT_DIR$/library/ajax/execute_background_services.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+-    <setting file="file://$PROJECT_DIR$/interface/patient_file/encounter/load_form.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+-    <setting file="file://$PROJECT_DIR$/library/classes/Controller.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+-    <setting file="file://$PROJECT_DIR$/interface/globals.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+     <setting file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts" root0="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/docker/development-easy/docker-compose.yml" root0="FORCE_HIGHLIGHTING" />
+-    <setting file="file://$PROJECT_DIR$/src/Common/ORDataObject/ORDataObject.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/library/classes/Controller.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/interface/globals.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/library/ajax/dated_reminders_counter.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/src/Common/ORDataObject/ORDataObject.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/interface/forms/soap/FormSOAP.class.php" root0="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/interface/patient_file/encounter/load_form.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/library/ajax/execute_background_services.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+     <setting file="file://$PROJECT_DIR$/interface/main/dated_reminders/dated_reminders.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+   </component>
+   <component name="PhpDebugGeneral" listening_started="true" xdebug_force_break_when_no_path_mapping="false" xdebug_force_break_when_outside_project="false" />
+@@ -534,7 +523,19 @@
+       <map>
+         <entry key="MAIN">
+           <value>
+-            <State />
++            <State>
++              <option name="FILTERS">
++                <map>
++                  <entry key="branch">
++                    <value>
++                      <list>
++                        <option value="dm2fu_form" />
++                      </list>
++                    </value>
++                  </entry>
++                </map>
++              </option>
++            </State>
+           </value>
+         </entry>
+       </map>
