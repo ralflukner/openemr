@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cc501f4-ff32-4aa2-bbe4-e7223037a0be" name="Changes" comment="explore api calls in form">
+    <list default="true" id="7cc501f4-ff32-4aa2-bbe4-e7223037a0be" name="Changes" comment="explore api calls in form dm2_fu_ap_01">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html" beforeDir="false" afterPath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/new.php" beforeDir="false" afterPath="$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/new.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,30 +29,35 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/interface/forms/bronchitis/new.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/main/finder/dynamic_finder.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Common/ORDataObject/ORDataObject.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/forms/soap/FormSOAP.class.php" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/patient_file/encounter/load_form.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/main/finder/dynamic_finder_ajax.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/forms/dictation/new.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/templates/general_new.html" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/library/patient.inc" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/library/classes/Controller.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/library/ajax/dated_reminders_counter.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_AP_01.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/new.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/report.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contrib/forms/clinic_note/new.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/interface/main/finder/dynamic_finder.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/Common/ORDataObject/ORDataObject.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/interface/forms/soap/FormSOAP.class.php" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/interface/patient_file/encounter/load_form.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/save.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/interface/main/finder/dynamic_finder_ajax.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/new.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/vendor/smarty/smarty/libs/Smarty.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/docker/development-easy/docker-compose.yml" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/templates/general_new.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/vendor/adodb/adodb-php/adodb.inc.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/library/classes/Controller.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/interface/globals.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/library/ajax/dated_reminders_counter.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/interface/forms/aftercare_plan/new.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/library/ajax/execute_background_services.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/interface/main/dated_reminders/dated_reminders.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_AP_01.class.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/vendor/adodb/adodb-php/drivers/adodb-mysqli.inc.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
   </component>
   <component name="PhpDebugGeneral" listening_started="true" xdebug_force_break_when_no_path_mapping="false" xdebug_force_break_when_outside_project="false" />
   <component name="PhpServers">
@@ -355,7 +359,7 @@
       <workItem from="1637116481935" duration="779000" />
       <workItem from="1637118925084" duration="2805000" />
       <workItem from="1637130815832" duration="3679000" />
-      <workItem from="1637201464984" duration="6418000" />
+      <workItem from="1637201464984" duration="8073000" />
     </task>
     <task id="LOCAL-00001" summary="added contrib/forms/dm2fu and interface/forms/dm2fu based on soap_form">
       <created>1636220068147</created>
@@ -539,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637444820158</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="explore api calls in form">
+      <created>1637444863504</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1637444863504</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -580,7 +591,9 @@
     <MESSAGE value="Prepare to add fields to dm2_fu_hpi_01 form by moving it into the interface/forms directory" />
     <MESSAGE value="Prepare to make a contrib/dm2_fu_ap_01 form by copying the dm2_fu_hpi_01 directory." />
     <MESSAGE value="explore api calls in form" />
-    <option name="LAST_COMMIT_MESSAGE" value="explore api calls in form" />
+    <MESSAGE value="add patient.inc to dm2_fu_ap_01" />
+    <MESSAGE value="explore api calls in form dm2_fu_ap_01" />
+    <option name="LAST_COMMIT_MESSAGE" value="explore api calls in form dm2_fu_ap_01" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

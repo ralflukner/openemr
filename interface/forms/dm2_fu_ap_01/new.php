@@ -14,11 +14,12 @@
 
 require_once(__DIR__ . "/../../globals.php");
 require_once("$srcdir/api.inc");
+require_once("$srcdir/patient.inc");
 
 require("C_FormDM2_FU_AP_01.class.php");
 if (is_numeric($pid)) {
     $result = getPatientData($pid, "fname,lname");
-    echo 'true';
+    echo $result . '<p>';
 }
 $c = new C_FormDM2_FU_AP_01();
 echo $c->default_action();
