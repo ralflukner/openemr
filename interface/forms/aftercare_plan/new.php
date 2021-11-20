@@ -13,10 +13,11 @@
  */
 
 require_once(__DIR__ . "/../../globals.php");
-require_once("$srcdir/api.inc");
-require_once("$srcdir/patient.inc");
-require_once("$srcdir/options.inc.php");
-
+if (!empty($srcdir)) {
+    require_once("$srcdir/api.inc");
+    require_once("$srcdir/patient.inc");
+    require_once("$srcdir/options.inc.php");
+}
 use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Core\Header;
 
@@ -51,8 +52,10 @@ $obj = $formid ? formFetch("form_aftercare_plan", $formid) : array();
 <p><span class="forms-title"><?php echo xlt('AfterCare Planning'); ?></span></p>
 <br />
 <?php
-echo "<form method='post' name='my_form' " .
-  "action='$rootdir/forms/aftercare_plan/save.php?id=" . attr_url($formid) . "'>\n";
+if (!empty($rootdir)) {
+    echo "<form method='post' name='my_form' " .
+      "action='$rootdir/forms/aftercare_plan/save.php?id=" . attr_url($formid) . "'>\n";
+}
 ?>
 <input type="hidden" name="csrf_token_form" value="<?php echo attr(CsrfUtils::collectCsrfToken()); ?>" />
 
@@ -60,10 +63,12 @@ echo "<form method='post' name='my_form' " .
 <tr>
 <td align="left" class="forms" class="forms"><?php echo xlt('Client Name'); ?>:</td>
         <td class="forms">
-            <label class="forms-data"> <?php if (is_numeric($pid)) {
-                $result = getPatientData($pid, "fname,lname,squad");
-                echo text($result['fname']) . " " . text($result['lname']);
-                                       }
+            <label class="forms-data"> <?php if (isset($pid)) {
+                    if (is_numeric($pid)) {
+                        $result = getPatientData($pid, "fname,lname,squad");
+                        echo text($result['fname']) . " " . text($result['lname']);
+                                               }
+                }
 
                                        $patient_name = ($result['fname']) . " " . ($result['lname']);
                                         ?>
@@ -88,7 +93,9 @@ echo "<form method='post' name='my_form' " .
 
   <td align="left" class="forms"><?php echo xlt('Admit Date'); ?>:</td>
         <td class="forms">
-               <input type='text' size='10' class='datepicker' name='admit_date' id='admission_date' <?php echo attr($disabled); ?>;
+               <input type='text' size='10' class='datepicker' name='admit_date' id='admission_date' <?php if (isset($disabled)) {
+                   echo attr($disabled);
+               } ?>;
                value='<?php echo attr($obj["admit_date"]); ?>'
                title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
         </td>
@@ -99,6 +106,7 @@ echo "<form method='post' name='my_form' " .
        title='<?php echo xla('yyyy-mm-dd Date of service'); ?>' />
         </td>
     </tr>
+    <!--suppress Stylelint -->
     <tr>
         <td align="left colspan="3" style="padding-bottom:7px;"></td>
     </tr>
@@ -107,6 +115,7 @@ echo "<form method='post' name='my_form' " .
         <td class="forms-subtitle" colspan="4"><B><?php echo xlt('Goal and Methods');?></B></td>
 
     </tr>
+    <!--suppress Stylelint -->
     <tr>
         <td align="left colspan="3" style="padding-bottom:7px;"></td>
     </tr>
@@ -161,6 +170,7 @@ echo "<form method='post' name='my_form' " .
 
     </tr>
 
+    <!--suppress Stylelint -->
     <tr>
         <td align="left colspan="3" style="padding-bottom:7px;"></td>
     </tr>
@@ -172,7 +182,7 @@ echo "<form method='post' name='my_form' " .
  onclick="parent.closeTab(window.name, false)" /></td>
     </tr>
 </table>
-</form>
+</body>
 <?php
 formFooter();
 ?>

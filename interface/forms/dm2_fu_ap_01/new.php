@@ -13,34 +13,20 @@
  */
 
 require_once(__DIR__ . "/../../globals.php");
-require_once("$srcdir/api.inc");
+if (!empty($srcdir)) {
+    /** @noinspection PhpIncludeInspection */
+    require_once("$srcdir/api.inc");
+}
+/** @noinspection PhpIncludeInspection */
+/** @noinspection PhpUndefinedVariableInspection */
 require_once("$srcdir/patient.inc");
 
-function printarray($array)
-{
-    print '<table>';
-    $headers = array_keys(reset($array));
-
-    print '<tr>';
-    foreach($headers as $header){
-        print '<th>'.$header.'</th>';
-    }
-    print '<tr>';
-
-    foreach($array as $row){
-        print '<tr>';
-        foreach($row as $col){
-            print '<td>'.$col.'</td>';
-        }
-        print '</tr>';
-    }
-    print '</table>';
-}
-
 require("C_FormDM2_FU_AP_01.class.php");
-if (is_numeric($pid)) {
-    $result = getPatientData($pid, "fname,lname");
-    printarray($result);
+if (!empty($pid)) {
+    if (is_numeric($pid)) {
+        $result = getPatientData($pid, "fname,lname");
+        echo "The patient name is" . $result['fname'] . " " . $result['lname'] . "<p>";
+    }
 }
 $c = new C_FormDM2_FU_AP_01();
 echo $c->default_action();
