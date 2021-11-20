@@ -16,10 +16,31 @@ require_once(__DIR__ . "/../../globals.php");
 require_once("$srcdir/api.inc");
 require_once("$srcdir/patient.inc");
 
+function printarray($array)
+{
+    print '<table>';
+    $headers = array_keys(reset($array));
+
+    print '<tr>';
+    foreach($headers as $header){
+        print '<th>'.$header.'</th>';
+    }
+    print '<tr>';
+
+    foreach($array as $row){
+        print '<tr>';
+        foreach($row as $col){
+            print '<td>'.$col.'</td>';
+        }
+        print '</tr>';
+    }
+    print '</table>';
+}
+
 require("C_FormDM2_FU_AP_01.class.php");
 if (is_numeric($pid)) {
     $result = getPatientData($pid, "fname,lname");
-    echo $result . '<p>';
+    printarray($result);
 }
 $c = new C_FormDM2_FU_AP_01();
 echo $c->default_action();
