@@ -12,13 +12,20 @@
                       action="{$FORM_ACTION}/interface/forms/dm2_fu_ap_01/save.php"
                       onsubmit="return top.restoreSession()">
                     <input type="hidden" name="csrf_token_form" value="{$CSRF_TOKEN_FORM|attr}" />
+                    <?php if (is_numeric($pid)) {
+                $result = getPatientData($pid, "fname,lname,squad");
+                echo text($result['fname']) . " " . text($result['lname']);
+                                       }
+
+
+                                        ?>
                     <fieldset>
                         <legend>{xlt t='Overall DM2 Managment Status (at goal/not)(improved/not)'}</legend>
                         <div class="container">
                             <div class="form-group" >
                                 <textarea name="dm2_mgmt_status"
                                           class="form-control" cols="60" rows="4"
-                                          onkeyup="top.isDM2FUEdit = true;">{$data->get_dm2_mgmt_status()|text}</textarea>
+                                          onkeyup="top.isDM2FUEdit = true;"{$data->get_dm2_mgmt_status()|text}</textarea>
                             </div>
                         </div>
                     </fieldset>

@@ -16,6 +16,9 @@ require_once(__DIR__ . "/../../globals.php");
 require_once("$srcdir/api.inc");
 
 require("C_FormDM2_FU_AP_01.class.php");
-
+if (is_numeric($pid)) {
+    $result = getPatientData($pid, "fname,lname");
+    echo 'true';
+}
 $c = new C_FormDM2_FU_AP_01();
 echo $c->default_action();
