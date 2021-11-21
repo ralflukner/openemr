@@ -95,7 +95,8 @@
                     html: '<p>{/literal}{xla t='Do you want to close the tabs?'}{literal}</p>',
                     buttons: [
                         {text: '{/literal}{xla t='Cancel'}{literal}', close: true, style: 'default btn-sm'},
-                        {text: '{/literal}{xla t='Close'}{literal}', close: true, style: 'danger btn-sm', click: closeSoap},
+                        {text: '{/literal}{xla t='Close'}{literal}', close: true, style: 'danger btn-sm',
+                            click: close_dm2_fu_ap_02},
                     ],
                     allowDrag: false,
                     allowResize: false,
@@ -106,7 +107,7 @@
             }
         }
 
-        const closeSoap = function() {
+        const close_dm2_fu_ap_02 = function() {
             top.isDM2FUEdit = false;
             top.restoreSession();
             location.href = 'javascript:parent.closeTab(window.name, false)';

@@ -61,12 +61,12 @@ function escape_sort_order($s)
 }
 
 /**
- * If parameter string contains comma(,) delimeter
- * Splits parameter string into an array, using comma(,) as delimeter
+ * If parameter string contains comma(,) delimiter
+ * Splits parameter string into an array, using comma(,) as delimiter
  * else it returns original string
  *
  * @param   string       $s  string to be processed
- * @return  array        $columns   an array formed by spliting $s with comma(,) delimeter
+ * @return  array        $columns   an array formed by splitting $s with comma(,) delimiter
  */
 
 function process_cols_escape($s)
