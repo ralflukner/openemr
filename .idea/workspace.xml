@@ -4,20 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7cc501f4-ff32-4aa2-bbe4-e7223037a0be" name="Changes" comment="dm2_fu_ap_01 - added printarray function.">
+    <list default="true" id="7cc501f4-ff32-4aa2-bbe4-e7223037a0be" name="Changes" comment="Cleanup IDE warnings with lint etc. suppression for dm2_fu_ap_01, aftercare, dm2_fu_hpi_01">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/C_FormDM2_FU_AP_01.class.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/FormDM2_FU_AP_01.class.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/info.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/new.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/report.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/save.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/table.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/templates/general_new.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_ap_01/view.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/forms/aftercare_plan/new.php" beforeDir="false" afterPath="$PROJECT_DIR$/interface/forms/aftercare_plan/new.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/C_FormDM2_FU_HPI_01.class.php~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/FormDM2_FU_HPI_01.class.php~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/info.txt~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/new.php~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/report.php~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/save.php~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/table.sql~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/templates/general_new.html~merged" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/contrib/forms/dm2_fu_hpi_01/view.php~merged" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/new.php" beforeDir="false" afterPath="$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/new.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/templates/general_new.html" beforeDir="false" afterPath="$PROJECT_DIR$/interface/forms/dm2_fu_ap_01/templates/general_new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface/forms/dm2_fu_hpi_02/new.php" beforeDir="false" afterPath="$PROJECT_DIR$/interface/forms/dm2_fu_hpi_02/new.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -364,7 +363,7 @@
       <workItem from="1637116481935" duration="779000" />
       <workItem from="1637118925084" duration="2805000" />
       <workItem from="1637130815832" duration="3679000" />
-      <workItem from="1637201464984" duration="10069000" />
+      <workItem from="1637201464984" duration="12860000" />
     </task>
     <task id="LOCAL-00001" summary="added contrib/forms/dm2fu and interface/forms/dm2fu based on soap_form">
       <created>1636220068147</created>
@@ -569,7 +568,35 @@
       <option name="project" value="LOCAL" />
       <updated>1637449196469</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="dm2_fu_ap_01 -">
+      <created>1637450306722</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1637450306722</updated>
+    </task>
+    <task id="LOCAL-00031" summary="dm2_fu_ap_01 -">
+      <created>1637450359437</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1637450359437</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Cleanup IDE warnings with lint etc. suppression for dm2_fu_ap_01, aftercare, dm2_fu_hpi_01">
+      <created>1637450454284</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1637450454284</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Cleanup IDE warnings with lint etc. suppression for dm2_fu_ap_01, aftercare, dm2_fu_hpi_01">
+      <created>1637450499746</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1637450499746</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,9 +616,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added contrib/forms/dm2fu and interface/forms/dm2fu based on soap_form" />
-    <MESSAGE value="replaced non-working versions of dm2fu in contrib/forms and interface/forms with a working version dm2_fu_01 based on soap_form" />
-    <MESSAGE value="Incorporate changes from master.  Added dm2_fu_labs_01 form to track key labs for DM2 follow-up visits." />
     <MESSAGE value="Added dm2_fu_labs_01 form to track key labs for DM2 follow-up visits." />
     <MESSAGE value="Corrected dm2_fu_labs_01 bugs in template related to get_egfr and similar." />
     <MESSAGE value="dm2_fu_labs_01 - adjusted row height to 1 of the input fields." />
@@ -613,7 +637,11 @@
     <MESSAGE value="add patient.inc to dm2_fu_ap_01" />
     <MESSAGE value="explore api calls in form dm2_fu_ap_01" />
     <MESSAGE value="dm2_fu_ap_01 - added printarray function." />
-    <option name="LAST_COMMIT_MESSAGE" value="dm2_fu_ap_01 - added printarray function." />
+    <MESSAGE value="dm2_fu_ap_01 - cleanup warning messages with lint etc suppression" />
+    <MESSAGE value="dm2_fu_ap_01 -" />
+    <MESSAGE value="Cleanup IDE warnings with lint etc. suppression for dm2_fu_ap_01, aftercare" />
+    <MESSAGE value="Cleanup IDE warnings with lint etc. suppression for dm2_fu_ap_01, aftercare, dm2_fu_hpi_01" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup IDE warnings with lint etc. suppression for dm2_fu_ap_01, aftercare, dm2_fu_hpi_01" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -688,6 +716,16 @@
           <line>78</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/interface/forms/dm2_fu_hpi_02/new.php</url>
+          <line>31</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/interface/forms/dm2_fu_hpi_02/new.php</url>
+          <line>39</line>
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
         <line-breakpoint type="javascript">
           <url>file://$PROJECT_DIR$/interface/main/tabs/js/frame_proxies.js</url>
           <line>91</line>
@@ -756,6 +794,7 @@
         <watch expression="$incdir" language="PHP" />
         <watch expression="$pid" language="PHP" />
         <watch expression="$result" />
+        <watch expression="$res4" />
       </configuration>
       <configuration name="dated_reminders_counter.php">
         <watch expression="$portal_count" language="PHP" />

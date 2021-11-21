@@ -25,7 +25,7 @@ require("C_FormDM2_FU_AP_01.class.php");
 if (!empty($pid)) {
     if (is_numeric($pid)) {
         $result = getPatientData($pid, "fname,lname");
-        echo "The patient name is" . $result['fname'] . " " . $result['lname'] . "<p>";
+        echo "The patient name is " . $result['fname'] . " " . $result['lname'] . "<p>";
     }
 }
 $c = new C_FormDM2_FU_AP_01();

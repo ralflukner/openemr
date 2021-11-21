@@ -27,9 +27,20 @@ require("C_FormDM2_FU_HPI_02.class.php");
 
 /* Explore getting information about previous encounter forms of this type */
 /* using encounters.php lines ~385 and following as template to learn from */
-$sqlBindArray = array();
-$query = "SELECT id FROM form_encounter ";
-$res4 = sqlStatement($query, $sqlBindArray);
+
+if (isset($pid)) {
+    $sqlBindArray = array();
+    $query = "SELECT id FROM form_encounter WHERE pid=$pid";
+    $res4 = sqlStatement($query, $sqlBindArray);
+
+    while($result4 = sqlFetchArray($res4)){
+        $raw_encounter_date = '';
+
+        $raw_encounter_date = date("Y-m-d", strtotime($result4["date"]));
+        $encounter_date = date("D F jS", strtotime($result4["date"]));
+
+    }
+}
 
 $c = new C_FormDM2_FU_HPI_02();
 echo $c->default_action();
