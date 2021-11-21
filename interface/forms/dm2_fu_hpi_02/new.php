@@ -25,12 +25,11 @@ if (!empty($srcdir)) {
 }
 require("C_FormDM2_FU_HPI_02.class.php");
 
+/* Explore getting information about previous encounter forms of this type */
+/* using encounters.php lines ~385 and following as template to learn from */
 $sqlBindArray = array();
-if ($attendant_type == 'pid') {
-    $from = "FROM form_encounter AS fe " .
-        "JOIN forms AS f ON f.pid = fe.pid AND f.encounter = fe.encounter AND " .
-        "f.formdir = 'newpatient' AND f.deleted = 0 ";
-}
+$query = "SELECT id FROM form_encounter ";
+$res4 = sqlStatement($query, $sqlBindArray);
 
 $c = new C_FormDM2_FU_HPI_02();
 echo $c->default_action();
