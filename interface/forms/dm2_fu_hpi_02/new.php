@@ -18,9 +18,19 @@ if (!empty($srcdir)) {
     require_once("$srcdir/api.inc");
     /** @noinspection PhpIncludeInspection */
     require_once("$srcdir/forms.inc");
+    /** @noinspection PhpIncludeInspection */
+    require_once("$srcdir/patient.inc");
+    /** @noinspection PhpIncludeInspection */
+    require_once("$srcdir/lists.inc");
 }
-
 require("C_FormDM2_FU_HPI_02.class.php");
+
+$sqlBindArray = array();
+if ($attendant_type == 'pid') {
+    $from = "FROM form_encounter AS fe " .
+        "JOIN forms AS f ON f.pid = fe.pid AND f.encounter = fe.encounter AND " .
+        "f.formdir = 'newpatient' AND f.deleted = 0 ";
+}
 
 $c = new C_FormDM2_FU_HPI_02();
 echo $c->default_action();
