@@ -17,7 +17,10 @@
  */
 
 require_once(__DIR__ . "/../../globals.php");
-require_once("$srcdir/api.inc");
+if (isset($srcdir)) {
+    /** @noinspection PhpIncludeInspection */
+    require_once("$srcdir/api.inc");
+}
 
 use OpenEMR\Common\Csrf\CsrfUtils;
 use OpenEMR\Core\Header;
