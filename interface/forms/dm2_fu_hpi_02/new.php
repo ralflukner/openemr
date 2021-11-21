@@ -16,6 +16,8 @@ require_once(__DIR__ . "/../../globals.php");
 if (!empty($srcdir)) {
     /** @noinspection PhpIncludeInspection */
     require_once("$srcdir/api.inc");
+    /** @noinspection PhpIncludeInspection */
+    require_once("$srcdir/forms.inc");
 }
 
 require("C_FormDM2_FU_HPI_02.class.php");
