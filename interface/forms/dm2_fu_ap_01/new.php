@@ -17,8 +17,8 @@ if (!empty($srcdir)) {
     /** @noinspection PhpIncludeInspection */
     require_once("$srcdir/api.inc");
 }
-/** @noinspection PhpIncludeInspection */
 /** @noinspection PhpUndefinedVariableInspection */
+/** @noinspection PhpIncludeInspection */
 require_once("$srcdir/patient.inc");
 
 require("C_FormDM2_FU_AP_01.class.php");

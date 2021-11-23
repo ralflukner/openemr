@@ -27,19 +27,32 @@ require("C_FormDM2_FU_HPI_02.class.php");
 
 /* Explore getting information about previous encounter forms of this type */
 /* using encounters.php lines ~385 and following as template to learn from */
-
-if (isset($pid)) {
+$p = NULL; // Initialize previous dm2_fu_hp_02 encounter form object
+if (isset($pid)&&isset($encounter)) {
+    // Find the previous encounter
     $sqlBindArray = array();
-    $query = "SELECT id FROM form_encounter WHERE pid=$pid";
-    $res4 = sqlStatement($query, $sqlBindArray);
-
-    while($result4 = sqlFetchArray($res4)){
-        $raw_encounter_date = '';
-
-        $raw_encounter_date = date("Y-m-d", strtotime($result4["date"]));
-        $encounter_date = date("D F jS", strtotime($result4["date"]));
-
+    $query = "SELECT * FROM form_encounter WHERE pid=$pid AND encounter<$encounter ORDER BY id DESC";
+    $prev_enc_rec_set = sqlStatement($query, $sqlBindArray);
+    $prevEncExists = false;
+    $encounter_date = '';
+    $encounter_no = 0;
+    if($prev_enc = sqlFetchArray($prev_enc_rec_set)){
+        $prevEncExists = true;
+        $encounter_date = date("Y-m-d", strtotime($prev_enc["date"]));
+        $encounter_no = $prev_enc['encounter'];
     }
+
+    // if there is a previous encounter,
+    // check if it has a dm2_fu_hp_02 form
+
+/*
+    // Retrieve previous dm2_fu_hp_02 encounter form object
+    $p = new FormDM2_FU_HPI_02($encounter_no);
+
+    // Display the previous form data
+    echo '<h2>Previous Form Data</h2>';
+    echo '<h3>Date</h3>';
+    echo $p->get_date() . '<p>';*/
 }
 
 $c = new C_FormDM2_FU_HPI_02();

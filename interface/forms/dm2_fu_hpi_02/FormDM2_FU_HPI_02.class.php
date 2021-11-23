@@ -122,7 +122,7 @@ class FormDM2_FU_HPI_02 extends ORDataObject
         return $this->activity;
     }
 
-    function get_date()
+    public function get_date()
     {
         return $this->date;
     }

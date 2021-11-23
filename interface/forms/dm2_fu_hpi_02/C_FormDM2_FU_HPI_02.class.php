@@ -70,7 +70,8 @@ class C_FormDM2_FU_HPI_02 extends Controller
         }
 
         if (empty($_POST['id'])) {
-            addForm($GLOBALS['encounter'], "DM2_FU_HPI_02", $this->form->id, "dm2_fu_hpi_02", $GLOBALS['pid'], $_SESSION['userauthorized']);
+            addForm($GLOBALS['encounter'], "DM2_FU_HPI_02", $this->form->id, "dm2_fu_hpi_02",
+                $GLOBALS['pid'], $_SESSION['userauthorized']);
             $_POST['process'] = "";
         }
 
